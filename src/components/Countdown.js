@@ -30,6 +30,12 @@ class Countdown extends React.Component {
         this.setState = this.setState.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.timeRemaining != this.props.sessionDuration && !this.state.inCycle) {
+            this.setState({timeRemaining: this.props.sessionDuration});
+        }
+    }
+
     update() {
         const now = Date.now();
         const dt = now - this.state.lastUpdateTime;
@@ -64,6 +70,7 @@ class Countdown extends React.Component {
     }
 
     reset() {
+        this.stop();
         this.setState({
             timeRemaining: this.props.sessionDuration,
             interval: null,
@@ -80,12 +87,9 @@ class Countdown extends React.Component {
                     <p className="break">break</p> : 
                     <p className="session">session</p>
                 }
-
-                {this.state.inCycle ? 
-                    <div className="time">{formatTime(seconds)}</div> : 
-                    <div className="time">{formatTime(this.props.sessionDuration/1000)}</div>
-                }
                 
+                <div className="time">{formatTime(seconds)}</div>
+
                 {this.state.interval ? 
                     <div className="timecontrol" onClick={() => {this.stop()}}>Stop</div> :
                     <div className="timecontrol" onClick={() => this.start()}>Start</div>
