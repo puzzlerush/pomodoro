@@ -1,59 +1,13 @@
 import React from 'react';
-import moment from 'moment';
-import './Clock.css';
-
-class TimeSetter extends React.Component {
-    constructor(props, name) {
-        super(props);
-        this.name = name;
-    }
-    render() {
-        return (
-            <div>
-                <div class="incdec" onClick={this.props.clickDec}>-</div>
-                {this.name + ' length: '}
-                {this.props.value}
-                <div class="incdec" onClick={this.props.clickInc}>+</div>
-                
-            </div>
-        );
-    }
-}
-
-class BreakSetter extends TimeSetter {
-    constructor(props) {
-        super(props, 'break');
-
-    }
-
-}
-
-class SessionSetter extends TimeSetter {
-    constructor(props) {
-        super(props, 'session');
-
-    }
-}
-
-class Countdown extends React.Component {
-    constructor(prpos) {
-        super(props);
-        this.startCountdown = this.startCountdown.bind(this);
-    }
-
-    startCountdown(duration) {
-        const now = new Date().getTime();
-        const countdownDate = now + 
-    }
-
-}
+import Countdown from './Countdown';
+import {BreakSetter, SessionSetter} from './TimeSetter';
 
 class Clock extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             breakLength: 5,
-            sessionLength: 25
+            sessionLength: 25,
         };
         this.incrementBreak = this.incrementBreak.bind(this);
         this.decrementBreak = this.decrementBreak.bind(this);
@@ -62,25 +16,31 @@ class Clock extends React.Component {
     }
 
     incrementBreak() {
-        this.setState((state, props) => this.setState({
+        this.setState((state, props) => ({
             breakLength: state.breakLength + 1
         }));
     }
     
     decrementBreak() {
-        this.setState((state, props) => this.setState({
+        if (this.state.breakLength == 1) {
+            return;
+        }
+        this.setState((state, props) => ({
             breakLength: state.breakLength - 1
         }));
     }
     
     incrementSession() {
-        this.setState((state, props) => this.setState({
+        this.setState((state, props) => ({
             sessionLength: state.sessionLength + 1
         }));
     }
 
     decrementSession() {
-        this.setState((state, props) => this.setState({
+        if (this.state.sessionLength == 1) {
+            return;
+        }
+        this.setState((state, props) => ({
             sessionLength: state.sessionLength - 1
         }));
     }
@@ -88,6 +48,10 @@ class Clock extends React.Component {
     render() {
         return (
             <div>
+                <Countdown 
+                    sessionDuration={this.state.sessionLength * 60 * 1000} 
+                    breakDuration={this.state.sessionLength * 60 * 1000}
+                />
                 <BreakSetter
                     value={this.state.breakLength} 
                     clickInc={this.incrementBreak} 
