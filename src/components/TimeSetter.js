@@ -9,11 +9,10 @@ class TimeSetter extends React.Component {
     render() {
         return (
             <div className="timeSetter">
-                {this.name}
+                <div>{this.name}</div>
                 <div className="incdec" onClick={this.props.clickInc}>+</div>
-                {this.props.value}
+                <div>{this.props.value}</div>
                 <div className="incdec" onClick={this.props.clickDec}>-</div>
-                
             </div>
         );
     }

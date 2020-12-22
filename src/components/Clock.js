@@ -22,7 +22,7 @@ class Clock extends React.Component {
     }
     
     decrementBreak() {
-        if (this.state.breakLength == 1) {
+        if (this.state.breakLength <= 1) {
             return;
         }
         this.setState((state, props) => ({
@@ -37,7 +37,7 @@ class Clock extends React.Component {
     }
 
     decrementSession() {
-        if (this.state.sessionLength == 1) {
+        if (this.state.sessionLength <= 1) {
             return;
         }
         this.setState((state, props) => ({
@@ -50,7 +50,7 @@ class Clock extends React.Component {
             <div>
                 <Countdown 
                     sessionDuration={this.state.sessionLength * 60 * 1000} 
-                    breakDuration={this.state.sessionLength * 60 * 1000}
+                    breakDuration={this.state.breakLength * 60 * 1000}
                 />
                 <BreakSetter
                     value={this.state.breakLength} 

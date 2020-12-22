@@ -1,4 +1,5 @@
 import React from 'react';
+import './Countdown.css';
 
 function formatTime(seconds) {
     const hours = Math.floor(seconds/3600);
@@ -19,7 +20,8 @@ class Countdown extends React.Component {
             timeRemaining: this.props.sessionDuration,
             lastUpdateTime: Date.now(),
             interval: null,
-            onBreak: false
+            onBreak: false,
+            inCycle: false
         }
         this.update = this.update.bind(this);
         this.start = this.start.bind(this);
@@ -51,6 +53,7 @@ class Countdown extends React.Component {
             this.setState({
                 lastUpdateTime: Date.now(),
                 interval: setInterval(this.update, 1),
+                inCycle: true
             });
         }
     }
@@ -63,7 +66,9 @@ class Countdown extends React.Component {
     reset() {
         this.setState({
             timeRemaining: this.props.sessionDuration,
-            onBreak: false
+            interval: null,
+            onBreak: false,
+            inCycle: false
         });
     }
 
@@ -71,11 +76,22 @@ class Countdown extends React.Component {
         const seconds = Math.floor(this.state.timeRemaining / 1000);
         return (
             <div className="countdown">
-                {this.state.onBreak ? <p>break</p> : <p>session</p>}
-                <p>{formatTime(seconds)}</p>
-                <button onClick={() => this.start()}>Start</button>
-                <button onClick={() => {this.stop()}}>Pause</button>
-                <button onClick={() => {this.reset()}}>Reset</button>
+                {this.state.onBreak ? 
+                    <p className="break">break</p> : 
+                    <p className="session">session</p>
+                }
+
+                {this.state.inCycle ? 
+                    <div className="time">{formatTime(seconds)}</div> : 
+                    <div className="time">{formatTime(this.props.sessionDuration/1000)}</div>
+                }
+                
+                {this.state.interval ? 
+                    <div className="timecontrol" onClick={() => {this.stop()}}>Stop</div> :
+                    <div className="timecontrol" onClick={() => this.start()}>Start</div>
+                }
+                
+                <div className="timecontrol" onClick={() => {this.reset()}}>Reset</div>
                 <audio id="audio-element">
                     <source src="https://assets.coderrocketfuel.com/pomodoro-times-up.mp3"></source>
                 </audio>

@@ -1,13 +1,12 @@
 .timeSetter {
     display: inline-block;
-    width: 10vw;
+    width: 200px;
     margin: 20px;
 }
 
 .incdec {
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 90%;
     line-height: 10pxmin;
     padding: 5px;
     border: 1px solid white;
