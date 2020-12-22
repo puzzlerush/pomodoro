@@ -1,0 +1,15 @@
+.incdec {
+    display: inline-block;
+    margin: 2vmin;
+    width: 2vmin;
+    height: 2vmin;
+    line-height: 2vmin;
+    padding: 0.5vmin;
+    border: 1px solid white;
+    font-size: 2vmin;
+}
+
+.incdec:hover {
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.1);;
+}
